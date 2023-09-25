@@ -19,8 +19,8 @@
       <titlepage>
         <author>
           <personname>Sean Maley, M.A.</personname>
-          <department>Qualified MBSR Teacher (Brown University)</department>
-          <institution>SUNY Finger Lakes</institution>
+          <department>Qualified MBSR Teacher</department>
+          <institution>Associate Professor, SUNY Finger Lakes</institution>
         </author>
         <date>
           <today />
@@ -46,10 +46,11 @@
       </colophon>  -->
     </frontmatter>
 
-    <chapter xml:id="week-1">
-      <title>Week 1</title>
+    <chapter xml:id="week-0">
+      <title>Week 0</title>
 
-		<section>	<title>Potential Benefits</title>
+		<section xml:id="potential-benefits"> 
+      <title>Potential Benefits</title>
 		
 		<p>MBSR stands for Mindfulness-Based Stress Reduction, a program developed by Jon Kabat-Zinn in 1979. The program combines mindfulness meditation and yoga to help individuals manage stress, anxiety, and other mental health concerns.</p> 
 		
@@ -85,13 +86,105 @@
 	
 	</section>
 
-      <section xml:id="intro">
-	  
-        <title>Introduction and Orientation</title>
-			<p>Hello</p>
-      </section>
+
+<section xml:id="introduction-and-orientation">
+  <title>Introduction and Orientation to Mindfulness-Based Stress Reduction (MBSR)</title>
+  
+  <subsection xml:id="welcome">
+    <title>Welcome!</title>
+    <p>Hello and welcome to this Mindfulness-Based Stress Reduction (MBSR) course! We're thrilled you've decided to join us on this transformative journey. Whether you're here to manage stress, improve your mental well-being, or simply explore the practice of mindfulness, you're in the right place.</p>
+  </subsection>
+  
+  <subsection xml:id="what-is-mbsr">
+    <title>What is MBSR?</title>
+    <p>Mindfulness-Based Stress Reduction is a structured program that blends mindfulness meditation and yoga with Western psychological methodologies. Developed by Dr. Jon Kabat-Zinn at the University of Massachusetts Medical School in 1979, MBSR has been scientifically proven to be effective in treating various conditions, including stress, anxiety, depression, and chronic pain.</p>
+  </subsection>
+  
+  <subsection xml:id="course-objectives">
+    <title>Course Objectives</title>
+    <p> We will see eventually that being excessively goal-focused can actually work against us making "progress" toward unfolding our innate capacity for concentration and healing.  However, in the name of what we might expect and to frame up the course, we can view these as potential outcomes: </p>
+    <ol>
+      <li>Understand the Principles of Mindfulness: Learn the foundational concepts and practices that make up mindfulness.</li>
+      <li>Apply Mindfulness Techniques: Utilize mindfulness practices in daily life to manage stress and improve mental well-being.</li>
+      <li>Develop a Personal Mindfulness Routine: Create a sustainable mindfulness practice tailored to your needs and lifestyle.</li>
+      <li>Enhance Emotional Intelligence: Gain insights into your emotional responses and learn how to manage them effectively.</li>
+      <li>Improve Focus and Concentration: Use mindfulness techniques to enhance your ability to concentrate on tasks at hand.</li>
+    </ol>
+
+  </subsection>
+  
+  <subsection xml:id="course-structure">
+    <title>Course Structure</title>
+    <p>This course is divided into eight weekly sessions, each focusing on different aspects of mindfulness and stress reduction. Each session will include:</p>
+    <ul>
+      <li>Theoretical Discussions</li>
+      <li>Guided Mindfulness Practices</li>
+      <li>Group Discussions</li>
+      <li>Homework Assignments (journaling, discussion posts, readings, interactives)</li>
+    </ul>
+  </subsection>
+  
+  <subsection xml:id="who-is-this-course-for">
+    <title>Who is this Course For?</title>
+    <p>This course is designed for anyone interested in improving their mental well-being, regardless of age, profession, or background. No prior experience in mindfulness or meditation is required.</p>
+    <p>If you find yourself in crisis, this is potentially not the right time to engage in "inner work".  Please reach out and we can connect you with counselors or health care providers.</p>
+  </subsection>
+  
+  <subsection xml:id="materials-needed">
+    <title>Materials Needed</title>
+    <ul>
+      <li>A quiet space for practice</li>
+      <li>Comfortable clothing for movement exercises</li>
+      <li>A notebook and pen for journaling</li>
+      <li>Optional: Yoga mat or cushion for seated practices</li>
+    </ul>
+  </subsection>
+  
+  <subsection xml:id="preparing-for-the-course">
+    <title>Preparing for the Course</title>
+    <p>Before we dive into the course material, we recommend that you:</p>
+    <ol>
+      <li>Set Your Intentions: Take some time to think about why you enrolled in this course.  Why are you here?</li>
+      <li>Create a Mindful Space: Designate a quiet and comfortable space where you can practice mindfulness without interruptions.  This does not need to be fancy, but it will help to keep it the same space for the coming weeks.</li>
+      <li>Commit to Practice: Consistency is key. You will need to set aside time each day for mindfulness practice. The time will vary, but you can expect 45-60 minutes per day.</li>
+    </ol>
+  </subsection>
+  
+  <subsection xml:id="conclusion">
+    <title>Conclusion</title>
+    <p>We're excited to have you as part of this course and look forward to embarking on this journey of self-discovery and stress reduction together.  </p>
+  </subsection>
+</section>
 
     </chapter>
+
+    <chapter xml:id="week-1">
+      <title> Week 1 </title>
+    </chapter>
+
+    <chapter xml:id="week-2">
+      <title> Week 2 </title>
+    </chapter>
+    <chapter xml:id="week-34">
+      <title> Week 3 </title>
+    </chapter>
+    <chapter xml:id="week-4">
+      <title> Week 4 </title>
+    </chapter>
+    <chapter xml:id="week-5">
+      <title> Week 5 </title>
+    </chapter>
+    <chapter xml:id="week-6">
+      <title> Week 6 </title>
+    </chapter>
+    <chapter xml:id="week-7">
+      <title> Week 7 </title>
+    </chapter>
+    <chapter xml:id="week-8">
+      <title> Week 8 </title>
+    </chapter>
+
+
 
     <backmatter xml:id="backmatter">
       <title>Backmatter</title>
