@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch-chapter-title" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Week 0 Orientation, Expectations, Guidelines</title>
+
+  <introduction>
+    <p> What to expect from your instructor, the course, your classmates, and what we need to expect from you. </p>
+  </introduction>
+
+  <!-- include sections -->
+  <xi:include href="sec-section-name.ptx" />
+
+</chapter>
