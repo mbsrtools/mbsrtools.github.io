@@ -4,7 +4,7 @@
   <!-- we first include a file which contains the docinfo element: -->
   <xi:include href="./docinfo.ptx" />
 
-  <book xml:id="my-great-book">
+  <book xml:id="mbsr-book">
     <title>MBSR at Finger Lakes</title>
     <subtitle>Rediscovering Our Nature</subtitle>
 
@@ -13,6 +13,7 @@
 
     <!-- Include chapters -->
     <xi:include href="./ch-chapter-title.ptx" />
+    <xi:include href="./module-1.ptx" />
 
 
     <!-- Include backmatter -->

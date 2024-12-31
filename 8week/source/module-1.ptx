@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="module-1" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Module 1</title>
+
+  <introduction>
+    <p> An experiential introduction to some core practices and concepts of MBSR.</p>
+  </introduction>
+
+  <!-- include sections -->
+  <xi:include href="module-1-1.ptx" />
+  <xi:include href="module-1-2.ptx" />
+  <xi:include href="module-1-3.ptx" />
+  <xi:include href="module-1-4.ptx" />
+
+</chapter>
