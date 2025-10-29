@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>8-Week Online Course</title>
+<style>
+  :root { --bg:#f7f7f9; --card:#fff; --muted:#6b7280; --ink:#111827; --line:#e5e7eb; --primary:#2563eb; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto; color:var(--ink); background:linear-gradient(#fff, var(--bg)); }
+  header { position:sticky; top:0; background:rgba(255,255,255,.9); backdrop-filter: blur(8px); border-bottom:1px solid var(--line); }
+  .wrap { max-width:1100px; margin:0 auto; padding:12px 16px; display:flex; align-items:center; gap:16px; }
+  .title { font-weight:700; font-size:18px; }
+  .muted { color:var(--muted); }
+  .btn { appearance:none; border:1px solid var(--line); background:#fff; padding:6px 10px; border-radius:8px; cursor:pointer; font-weight:600; }
+  .btn.primary { background:var(--primary); color:#fff; border-color:var(--primary); }
+  .btn.small { padding:4px 8px; font-size:12px; }
+  .grid { max-width:1100px; margin:12px auto; padding:16px; display:grid; grid-template-columns:280px 1fr; gap:16px; }
+  @media (max-width: 920px){ .grid{ grid-template-columns:1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,.03); }
+  .card .pad { padding:12px; }
+  .side .module { display:block; width:100%; text-align:left; padding:10px; border-radius:10px; border:1px solid transparent; }
+  .side .module.active { background:#f3f4f6; border-color:var(--line); }
+  .row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .progress { height:8px; background:#eef2ff; border-radius:999px; overflow:hidden; border:1px solid #e0e7ff; }
+  .bar { height:100%; width:0%; background:var(--primary); transition:width .2s ease; }
+  .lesson { padding:10px; border:1px solid var(--line); border-radius:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .lesson .meta { font-size:12px; color:var(--muted); }
+  .stack { display:grid; gap:8px; }
+  .field { position:relative; }
+  .input { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; }
+  .badge { display:inline-block; padding:2px 6px; font-size:11px; border:1px solid var(--line); border-radius:999px; color:var(--muted); background:#fafafa; }
+  footer { max-width:1100px; margin:24px auto; padding:0 16px 24px; color:var(--muted); font-size:12px; }
+  /* Modal */
+  .modal { position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; padding:16px; }
+  .modal.open { display:flex; }
+  .modal .panel { background:#fff; width:min(100%, 1000px); height:80vh; border-radius:12px; border:1px solid var(--line); display:grid; grid-template-rows:auto 1fr; overflow:hidden; }
+  .panel header { position:static; border-bottom:1px solid var(--line); }
+  .panel iframe { width:100%; height:100%; border:0; }
+  .hint { font-size:12px; color:var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div>
+      <div class="title" id="course-title">8-Week Online Course</div>
+      <div class="muted" id="course-tagline">Self-paced. No grades. Track completion.</div>
+    </div>
+    <div style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+      <div style="min-width:200px;">
+        <div class="muted" style="font-size:11px;">Overall progress</div>
+        <div class="progress"><div class="bar" id="overall-bar"></div></div>
+        <div class="muted" id="overall-label" style="font-size:11px; margin-top:2px;"></div>
+      </div>
+      <button class="btn small" id="export">Export</button>
+      <label class="btn small" for="import">Import</label>
+      <input id="import" type="file" accept="application/json" style="display:none" />
+      <button class="btn small" id="reset">Reset</button>
+    </div>
+  </div>
+</header>
+
+<main class="grid">
+  <aside class="side stack">
+    <div class="card">
+      <div class="pad stack">
+        <div class="field">
+          <input id="search" class="input" placeholder="Search lessons" />
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="pad">
+        <div class="muted" style="font-size:12px; font-weight:700; margin-bottom:6px;">Modules</div>
+        <div id="modules-nav" class="stack"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="pad">
+        <div style="font-weight:700;">About this course</div>
+        <p class="muted" id="course-desc" style="margin:6px 0 0 0;">
+          This scaffold supports eight weekly modules mixing video, audio, text, and documents. Learners mark completion per item.
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <section class="stack" id="content"></section>
+</main>
+
+<div class="modal" id="modal">
+  <div class="panel">
+    <header class="wrap" style="padding:8px 12px;">
+      <div class="muted" id="modal-url" style="font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:70%;"></div>
+      <div style="margin-left:auto; display:flex; gap:8px;">
+        <a id="modal-open" class="btn small" target="_blank" rel="noopener">Open</a>
+        <button class="btn small" id="modal-close">Close</button>
+      </div>
+    </header>
+    <iframe id="modal-frame" title="Lesson preview"></iframe>
+  </div>
+</div>
+
+<footer>© <span id="year"></span> Your Organization.</footer>
+
+<script>
+/*** CONFIG ***/
+const COURSE = {
+  id: "course-8w-static-001", // change to reset everyone’s progress
+  title: "8-Week Online Course",
+  tagline: "Self-paced. No grades. Track completion.",
+  description: "This scaffold supports eight weekly modules mixing video, audio, text, and documents. Learners mark completion per item.",
+  modules: Array.from({length:8}).map((_,i)=>({
+    id: `mod-${i+1}`,
+    title: `Week ${i+1}`,
+    summary: "Replace this with your week overview.",
+    lessons: [
+      { id:`m${i+1}-v1`, title:"Intro video",   type:"video",    href:"https://example.com/your-video" },
+      { id:`m${i+1}-a1`, title:"Guided audio",  type:"audio",    href:"https://example.com/your-audio.mp3" },
+      { id:`m${i+1}-t1`, title:"Reading (HTML)",type:"text",     href:`lessons/week-${i+1}/reading.html` },
+      { id:`m${i+1}-d1`, title:"Handout (PDF)", type:"document", href:"https://example.com/your-handout.pdf" }
+    ]
+  }))
+};
+/*** STATE ***/
+const STORAGE_KEY = `ocp.progress.${COURSE.id}`;
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {lessons:{}}; }catch(e){ return {lessons:{}}; }
+}
+function saveProgress(p){ localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }
+let PROGRESS = loadProgress();
+
+/*** UTIL ***/
+function pct(n,d){ return d===0?0:Math.round(100*n/d); }
+function lessonCompleted(id){ return !!PROGRESS.lessons[id]; }
+function setLesson(id,val){
+  PROGRESS.lessons[id] = !!val;
+  PROGRESS.lastUpdated = new Date().toISOString();
+  saveProgress(PROGRESS);
+  render(); // re-render to update bars and counts
+}
+function totalsAll(){
+  const lessons = COURSE.modules.flatMap(m=>m.lessons);
+  const completed = lessons.filter(L=>lessonCompleted(L.id)).length;
+  return { total: lessons.length, completed };
+}
+function totalsForModule(m){
+  const total = m.lessons.length;
+  const completed = m.lessons.reduce((a,L)=>a + (lessonCompleted(L.id)?1:0), 0);
+  return { total, completed };
+}
+function badge(type){ return `<span class="badge">${type}</span>`; }
+
+/*** RENDER ***/
+let ACTIVE = COURSE.modules[0].id;
+let QUERY = "";
+
+function renderNav(){
+  const nav = document.getElementById("modules-nav");
+  nav.innerHTML = "";
+  COURSE.modules.forEach(m=>{
+    const t = totalsForModule(m);
+    const p = pct(t.completed, t.total);
+    const btn = document.createElement("button");
+    btn.className = "module";
+    if (ACTIVE === m.id) btn.classList.add("active");
+    btn.innerHTML = `
+      <div class="row">
+        <div>
+          <div style="font-weight:600">${m.title}</div>
+          <div class="muted" style="font-size:11px">${t.completed}/${t.total} done</div>
+        </div>
+        <div class="muted" style="font-size:11px">${p}%</div>
+      </div>`;
+    btn.onclick = ()=>{ ACTIVE = m.id; render(); };
+    nav.appendChild(btn);
+  });
+}
+
+function renderContent(){
+  const mount = document.getElementById("content");
+  mount.innerHTML = "";
+
+  // Active module card
+  const active = COURSE.modules.find(m=>m.id===ACTIVE) || COURSE.modules[0];
+  mount.appendChild(moduleCard(active, true));
+
+  // Search results section
+  const q = QUERY.trim().toLowerCase();
+  if (q){
+    const hits = COURSE.modules.map(m=>({
+      ...m,
+      lessons: m.lessons.filter(L=>L.title.toLowerCase().includes(q))
+    })).filter(m=>m.lessons.length>0 || m.title.toLowerCase().includes(q));
+    const wrapper = document.createElement("div");
+    wrapper.className = "stack";
+    if (hits.length){
+      const h = document.createElement("div");
+      h.className = "muted";
+      h.style.fontSize = "12px";
+      h.textContent = "Search results";
+      wrapper.appendChild(h);
+      hits.forEach(m=>wrapper.appendChild(moduleCard(m, false)));
+    } else {
+      const none = document.createElement("div");
+      none.className = "muted";
+      none.textContent = "No matches.";
+      wrapper.appendChild(none);
+    }
+    mount.appendChild(wrapper);
+  }
+}
+
+function moduleCard(module, showHeader){
+  const t = totalsForModule(module);
+  const p = pct(t.completed, t.total);
+  const card = document.createElement("div");
+  card.className = "card";
+  const header = showHeader ? `
+    <div class="pad" style="border-bottom:1px solid var(--line);">
+      <div class="row">
+        <div>
+          <div style="font-size:16px; font-weight:700">${module.title}</div>
+          <div class="muted">${module.summary}</div>
+        </div>
+        <div style="min-width:180px">
+          <div class="muted" style="font-size:11px; margin-bottom:4px">${t.completed}/${t.total} completed</div>
+          <div class="progress"><div class="bar" style="width:${p}%"></div></div>
+        </div>
+      </div>
+    </div>` : "";
+  const lessons = module.lessons.map(L => lessonRow(L)).join("");
+  card.innerHTML = header + `<div class="pad stack">${lessons}</div>`;
+  return card;
+}
+
+function lessonRow(L){
+  const done = lessonCompleted(L.id);
+  const label = done ? "Completed" : "Mark completed";
+  const open = `<a class="muted" style="font-size:12px" href="${L.href}" target="_blank" rel="noopener">open ↗</a>`;
+  const canPreview = L.type === "text" ? `<button class="btn small" data-preview="${encodeURI(L.href)}">Preview</button>` : "";
+  return `
+    <div class="lesson">
+      <div style="display:flex; align-items:center; gap:10px; min-width:0">
+        <input type="checkbox" data-id="${L.id}" ${done?"checked":""} />
+        <div style="min-width:0">
+          <div style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${L.title}</div>
+          <div class="meta" style="display:flex; gap:8px; align-items:center;">
+            ${badge(L.type)} ${open}
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button class="btn small ${done?'':'primary'}" data-toggle="${L.id}">${label}</button>
+        ${canPreview}
+      </div>
+    </div>`;
+}
+
+/*** EVENT BINDING + RE-RENDER HOOKS ***/
+function bindGlobals(){
+  document.getElementById("search").addEventListener("input", e=>{ QUERY = e.target.value; renderContent(); });
+  document.getElementById("reset").addEventListener("click", ()=>{ PROGRESS = {lessons:{}, lastUpdated:new Date().toISOString()}; saveProgress(PROGRESS); render(); });
+  document.getElementById("export").addEventListener("click", ()=>{
+    const blob = new Blob([JSON.stringify({ courseId:COURSE.id, progress:PROGRESS }, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = Object.assign(document.createElement("a"), { href:url, download:`${COURSE.id}.progress.json`});
+    a.click(); URL.revokeObjectURL(url);
+  });
+  document.getElementById("import").addEventListener("change", (e)=>{
+    const f = e.target.files && e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = ()=> {
+      try{
+        const data = JSON.parse(String(r.result));
+        if (data.courseId !== COURSE.id || !data.progress) throw new Error("bad");
+        PROGRESS = data.progress; saveProgress(PROGRESS); render();
+      } catch(err){ alert("Invalid file."); }
+    };
+    r.readAsText(f);
+    e.target.value = "";
+  });
+
+  // Modal controls
+  const modal = document.getElementById("modal");
+  document.getElementById("modal-close").onclick = ()=> modal.classList.remove("open");
+  modal.addEventListener("click", (e)=>{ if (e.target === modal) modal.classList.remove("open"); });
+}
+
+function bindDynamic(){
+  // checkbox toggles
+  document.querySelectorAll("[data-id]").forEach(el=>{
+    el.addEventListener("change", e=> setLesson(el.getAttribute("data-id"), el.checked));
+  });
+  // button toggles
+  document.querySelectorAll("[data-toggle]").forEach(el=>{
+    el.addEventListener("click", e=>{
+      const id = el.getAttribute("data-toggle");
+      const next = !lessonCompleted(id);
+      setLesson(id, next);
+    });
+  });
+  // preview
+  document.querySelectorAll("[data-preview]").forEach(el=>{
+    el.addEventListener("click", e=>{
+      const url = el.getAttribute("data-preview");
+      document.getElementById("modal-url").textContent = url;
+      const a = document.getElementById("modal-open"); a.href = url;
+      const frame = document.getElementById("modal-frame"); frame.src = url;
+      document.getElementById("modal").classList.add("open");
+      // Some hosts block embedding; user can click Open.
+    });
+  });
+}
+
+function renderHeader(){
+  document.getElementById("course-title").textContent = COURSE.title;
+  document.getElementById("course-tagline").textContent = COURSE.tagline;
+  document.getElementById("course-desc").textContent = COURSE.description;
+  document.getElementById("year").textContent = new Date().getFullYear();
+  const t = totalsAll(), p = pct(t.completed, t.total);
+  document.getElementById("overall-bar").style.width = p + "%";
+  document.getElementById("overall-label").textContent = `${t.completed}/${t.total} completed (${p}%)`;
+}
+
+function render(){
+  renderHeader();
+  renderNav();
+  renderContent();
+  bindDynamic();
+}
+
+/*** INIT ***/
+bindGlobals();
+render();
+</script>
+</body>
+</html>
